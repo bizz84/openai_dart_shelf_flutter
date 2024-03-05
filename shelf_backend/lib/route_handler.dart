@@ -37,7 +37,8 @@ Future<Response> _tipHandler(Request request) async {
     return Response.ok(messageContent);
   } else {
     return Response.internalServerError(
-      body: 'OpenAI request failed with status: ${response.statusCode}',
+      body:
+          'OpenAI request failed with status: ${response.statusCode}: ${response.body}, API: ${apiKey.length}',
     );
   }
 }

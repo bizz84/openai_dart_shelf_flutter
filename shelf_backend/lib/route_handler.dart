@@ -9,10 +9,11 @@ final router = Router()..get('/tip', _tipHandler);
 
 Future<Response> _tipHandler(Request request) async {
   final url = Uri.parse('https://api.openai.com/v1/chat/completions');
-  final apiKey = const String.fromEnvironment('OPENAI_API_KEY');
+  String? apiKey = const String.fromEnvironment('OPENAI_API_KEY');
   print('apiKey: $apiKey');
-  final env = Platform.environment['OPENAI_API_KEY'];
-  print('env: $env');
+  if (apiKey.isEmpty) {
+    apiKey = Platform.environment['OPENAI_API_KEY'];
+  }
   final headers = {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer $apiKey',
@@ -42,7 +43,7 @@ Future<Response> _tipHandler(Request request) async {
   } else {
     return Response.internalServerError(
       body:
-          'OpenAI request failed with status: ${response.statusCode}: ${response.body}, API: ${apiKey.length}',
+          'OpenAI request failed with status: ${response.statusCode}: ${response.body}, API: ${apiKey?.length}',
     );
   }
 }

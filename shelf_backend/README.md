@@ -1,49 +1,34 @@
-A server app built using [Shelf](https://pub.dev/packages/shelf),
-configured to enable running with [Docker](https://www.docker.com/).
+# Shelf tutorial demo app
 
-This sample code handles HTTP GET requests to `/` and `/echo/<message>`
-
-# Running the sample
+A server app built using [Shelf](https://pub.dev/packages/shelf) and wrapping the OpenAI API.
 
 ## Running with the Dart SDK
 
-You can run the example with the [Dart SDK](https://dart.dev/get-dart)
-like this:
+You can run the example with the [Dart SDK](https://dart.dev/get-dart) like this:
 
 ```
-$ dart run bin/server.dart
-Server listening on port 8080
+dart run --define=OPENAI_API_KEY=<your_key> bin/server.dart
 ```
 
-And then from a second terminal:
-```
-$ curl http://0.0.0.0:8080
-Hello, World!
-$ curl http://0.0.0.0:8080/echo/I_love_Dart
-I_love_Dart
-```
-
-## Running with Docker
-
-If you have [Docker Desktop](https://www.docker.com/get-started) installed, you
-can build and run with the `docker` command:
-
-```
-$ docker build . -t myserver
-$ docker run -it -p 8080:8080 myserver
-Server listening on port 8080
-```
+Replace `<your_key>` with your actual OpenAI API key.
 
 And then from a second terminal:
+
 ```
-$ curl http://0.0.0.0:8080
-Hello, World!
-$ curl http://0.0.0.0:8080/echo/I_love_Dart
-I_love_Dart
+$ curl http://0.0.0.0:8080/tip
 ```
 
-You should see the logging printed in the first terminal:
+## Testing
+
+The tests also need the OpenAI API key. Create a file named **testing_key.dart** in the **test** folder. Add the following line:
+
 ```
-2021-05-06T15:47:04.620417  0:00:00.000158 GET     [200] /
-2021-05-06T15:47:08.392928  0:00:00.001216 GET     [200] /echo/I_love_Dart
+const apiKey = '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';
 ```
+
+Run the tests like so:
+
+```
+dart test
+```
+

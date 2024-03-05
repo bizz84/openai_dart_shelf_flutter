@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:http/http.dart';
-import 'package:shelf_backend/env_variables.dart';
 import 'package:test/test.dart';
+
+import 'testing_key.dart';
 
 void main() {
   final port = '8080';
@@ -12,7 +13,11 @@ void main() {
   setUp(() async {
     p = await Process.start(
       'dart',
-      ['run', 'bin/server.dart'],
+      [
+        'run',
+        '--define=OPENAI_API_KEY=$apiKey',
+        'bin/server.dart',
+      ],
       environment: {'PORT': port},
     );
     await p.stdout.first;
@@ -20,32 +25,22 @@ void main() {
 
   tearDown(() => p.kill());
 
-  test('Root', () async {
-    final authHeader = 'Bearer $clientApiKey';
-    final response = await get(
-      Uri.parse('$host/user/bizz84'),
-      headers: {'authorization': authHeader},
-    );
+  test('/tip works', () async {
+    final response = await get(Uri.parse('$host/tip'));
+    print(response.body);
     expect(response.statusCode, 200);
-    expect(response.body.startsWith('{"user":"bizz84'), true);
-  });
-
-  test('401: Unauthorized', () async {
-    final response = await get(Uri.parse('$host/user/bizz84'));
-    expect(response.statusCode, 401);
+    expect(response.body.length, greaterThan(20));
   });
 
   test('404: Not Found', () async {
-    final authHeader = 'Bearer $clientApiKey';
     final response = await get(
       Uri.parse('$host/foobar'),
-      headers: {'authorization': authHeader},
     );
     expect(response.statusCode, 404);
   });
 
   test('405: Method Not Allowed', () async {
-    final response = await post(Uri.parse('$host/user/suragch'));
+    final response = await post(Uri.parse('$host/tip'));
     expect(response.statusCode, 405);
   });
 }

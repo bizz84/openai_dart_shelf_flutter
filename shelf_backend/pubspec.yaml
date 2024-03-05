@@ -1,7 +1,6 @@
 name: shelf_backend
-description: A server app using the shelf package and Docker.
+description: A Shelf server wrapping the OpenAI API.
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
 
 environment:
   sdk: ^3.3.0

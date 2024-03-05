@@ -1,25 +1,21 @@
-import 'dart:convert';
+import 'dart:io';
 
-import 'package:flutter_frontend/home/home_page_manager.dart';
 import 'package:http/http.dart' as http;
 
 class WebClient {
-  Future<GitHubUser> fetchUser(String name) async {
-    final response =
-        await http.get(Uri.parse('https://api.github.com/users/$name'));
+  String get _host => (Platform.isAndroid) ? '10.0.2.2:8080' : '127.0.0.1:8080';
+
+  Future<String> fetchTip() async {
+    print('hello');
+    final response = await http.get(Uri.parse('http://$_host/tip'));
     if (response.statusCode != 200) {
-      throw Exception('Error getting user');
+      throw ClientException('Error getting tip');
     }
-    final body = json.decode(response.body);
-    print(body);
-    final username = body['login'];
-    final url = body['avatar_url'];
-    if (username == null || url == null) {
-      throw ArgumentError('User not found');
-    }
-    return GitHubUser(
-      username: username,
-      avatarUrl: url,
-    );
+    return response.body;
   }
+}
+
+class ClientException implements Exception {
+  ClientException(this.message);
+  final String message;
 }

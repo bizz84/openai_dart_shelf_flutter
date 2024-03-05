@@ -13,75 +13,37 @@ class _HomePageState extends State<HomePage> {
   final manager = HomePageManager();
 
   @override
-  void initState() {
-    super.initState();
-    manager.init();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SizedBox(
-          width: 200,
-          height: 250,
-          child: ValueListenableBuilder<LoadingState>(
-              valueListenable: manager.loadingNotifier,
-              builder: (context, loadingState, child) {
-                return switch (loadingState) {
-                  Initial() => const SizedBox(),
-                  Loading() => const LinearProgressIndicator(),
-                  LoadingError() => Text(loadingState.message),
-                  Result() => Avatar(user: loadingState.user),
-                };
-              }),
+        child: Column(
+          children: [
+            const SizedBox(height: 64),
+            ElevatedButton(
+              onPressed: manager.requestTip,
+              child: const Text('Give me a Flutter tip'),
+            ),
+            const SizedBox(height: 32),
+            Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: ValueListenableBuilder<LoadingState>(
+                valueListenable: manager.loadingNotifier,
+                builder: (context, loadingState, child) {
+                  return switch (loadingState) {
+                    Initial() => const SizedBox(),
+                    Loading() => const LinearProgressIndicator(),
+                    LoadingError() => Text(
+                        loadingState.message,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    Result() => Text(loadingState.tip),
+                  };
+                },
+              ),
+            ),
+          ],
         ),
       ),
-    );
-  }
-}
-
-class LoadingUser extends StatelessWidget {
-  const LoadingUser({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return const Stack(
-      children: [
-        Icon(Icons.person, size: 200),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: LinearProgressIndicator(),
-        ),
-      ],
-    );
-  }
-}
-
-class Avatar extends StatelessWidget {
-  const Avatar({
-    super.key,
-    required this.user,
-  });
-
-  final GitHubUser user;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Image.network(user.avatarUrl),
-        const SizedBox(height: 16),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Text(
-            user.username,
-            style: const TextStyle(fontSize: 20),
-          ),
-        ),
-      ],
     );
   }
 }

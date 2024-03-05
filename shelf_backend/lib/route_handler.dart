@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:shelf/shelf.dart';
@@ -8,7 +9,10 @@ final router = Router()..get('/tip', _tipHandler);
 
 Future<Response> _tipHandler(Request request) async {
   final url = Uri.parse('https://api.openai.com/v1/chat/completions');
-  final apiKey = String.fromEnvironment('OPENAI_API_KEY');
+  final apiKey = const String.fromEnvironment('OPENAI_API_KEY');
+  print('apiKey: $apiKey');
+  final env = Platform.environment['OPENAI_API_KEY'];
+  print('env: $env');
   final headers = {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer $apiKey',

@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
-import 'home/home_page.dart';
+import 'home/flutter_tips_screen.dart';
 
 void main() {
-  runApp(const GitHubProfileApp());
+  runApp(const MainApp());
 }
 
-class GitHubProfileApp extends StatelessWidget {
-  const GitHubProfileApp({super.key});
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: HomePage(),
+      debugShowCheckedModeBanner: false,
+      home: FlutterTipsScreen(),
     );
   }
 }

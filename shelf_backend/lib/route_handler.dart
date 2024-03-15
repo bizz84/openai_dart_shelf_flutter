@@ -8,12 +8,8 @@ import 'package:shelf_router/shelf_router.dart';
 final router = Router()..get('/tip', _tipHandler);
 
 Future<Response> _tipHandler(Request request) async {
+  final apiKey = Platform.environment['OPENAI_API_KEY'];
   final url = Uri.parse('https://api.openai.com/v1/chat/completions');
-  String? apiKey = const String.fromEnvironment('OPENAI_API_KEY');
-  print('apiKey: $apiKey');
-  if (apiKey.isEmpty) {
-    apiKey = Platform.environment['OPENAI_API_KEY'];
-  }
   final headers = {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer $apiKey',
@@ -42,8 +38,7 @@ Future<Response> _tipHandler(Request request) async {
     return Response.ok(messageContent);
   } else {
     return Response.internalServerError(
-      body:
-          'OpenAI request failed with status: ${response.statusCode}: ${response.body}, API: ${apiKey?.length}',
+      body: 'OpenAI request failed: ${response.body}',
     );
   }
 }

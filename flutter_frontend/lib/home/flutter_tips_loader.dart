@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_frontend/web_client/web_client.dart';
+import '../web_client/web_client.dart';
 
 class FlutterTipsLoader {
   final webClient = WebClient();

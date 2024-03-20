@@ -6,7 +6,7 @@ Complete source code for this tutorial:
 
 ### Preview
 
-![Flutter app demo](/.github/images/flutter-tips-by-ai.png)
+<img src="/.github/images/flutter-tips-by-ai.png" alt="Flutter app demo" width="375">
 
 ### System Architecture
 

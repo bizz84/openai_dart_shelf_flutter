@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:test/test.dart';
 
-import 'testing_key.dart';
+import 'test_api_key.dart';
 
 void main() {
   final port = '8080';
@@ -15,10 +15,12 @@ void main() {
       'dart',
       [
         'run',
-        '--define=OPENAI_API_KEY=$apiKey',
         'bin/server.dart',
       ],
-      environment: {'PORT': port},
+      environment: {
+        'PORT': port,
+        'OPENAI_API_KEY': testApiKey,
+      },
     );
     await p.stdout.first;
   });

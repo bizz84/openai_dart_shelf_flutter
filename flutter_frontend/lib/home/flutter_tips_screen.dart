@@ -10,12 +10,12 @@ class FlutterTipsScreen extends StatefulWidget {
 }
 
 class _FlutterTipsScreenState extends State<FlutterTipsScreen> {
-  final manager = FlutterTipsLoader();
+  final _loader = FlutterTipsLoader();
 
   @override
   void initState() {
     // Load the first tip
-    manager.requestTip();
+    _loader.requestTip();
     super.initState();
   }
 
@@ -31,16 +31,15 @@ class _FlutterTipsScreenState extends State<FlutterTipsScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
               child: ValueListenableBuilder<RequestState>(
-                valueListenable: manager.loadingNotifier,
+                valueListenable: _loader.loadingNotifier,
                 builder: (context, state, child) {
                   return switch (state) {
-                    Initial() => const SizedBox(),
                     Loading() => const LinearProgressIndicator(),
-                    LoadingError() => Text(
+                    Failure() => Text(
                         state.message,
                         style: const TextStyle(color: Colors.red),
                       ),
-                    Result() => Column(
+                    Success() => Column(
                         children: [
                           Text(
                             state.tip,
@@ -59,7 +58,7 @@ class _FlutterTipsScreenState extends State<FlutterTipsScreen> {
             ),
             const Spacer(),
             ElevatedButton(
-              onPressed: manager.requestTip,
+              onPressed: _loader.requestTip,
               child: const Text(
                 'Next Flutter Tip',
                 style: TextStyle(fontSize: 20),

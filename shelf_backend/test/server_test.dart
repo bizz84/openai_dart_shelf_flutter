@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 import 'test_api_key.dart';
 
 void main() {
-  final port = '8080';
+  final port = '8081';
   final host = 'http://0.0.0.0:$port';
   late Process p;
 

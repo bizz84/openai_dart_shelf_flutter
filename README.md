@@ -2,7 +2,7 @@
 
 Complete source code for this tutorial:
 
-- [How to Build and Deploy a Dart Shelf App with Globe.dev](#)
+- [How to Build and Deploy a Dart Shelf App with Globe.dev](https://codewithandrea.com/articles/build-deploy-dart-shelf-app-globe/)
 
 ### Preview
 
